@@ -1,4 +1,8 @@
-<table>
+@extends('layouts.app');
+@section('content')
+    <a href="{{route('admin.stores.create')}}" class="btn btn-sm btn-success">CRIAR</a>
+<table class="table table-striped">
+
     <thead>
     <tr>
         <th>#</th>
@@ -11,7 +15,8 @@
         <tr>
             <td>{{$store->id}}</td>
             <td>{{$store->name}}</td>
-            <td>#</td>
+            <td><a href="{{route('admin.stores.edit',['store'=>$store->id])}}" class="btn btn-sm btn-primary">EDITAR</a></td>
+            <td><a href="{{route('admin.stores.destroy',['store'=>$store->id])}}" class="btn btn-sm btn-danger">EXCLUIR</a></td>
         </tr>
     @endforeach
 
@@ -19,3 +24,4 @@
 
 </table>
 {{$stores->links()}}
+@endsection

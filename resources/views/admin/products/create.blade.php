@@ -1,38 +1,40 @@
 @extends('layouts.app');
 @section('content')
-    <h1>Criar Loja</h1>
-    <form action="admin.stores.store" method="post">
-        <input type="hidden" name="_token" value="{{csrf_token()}}">
+    <h1>Criar Produto</h1>
+    <form action="{{route("admin.products.store")}}" method="post">
+        @csrf
         <div class="form-group">
-            <label for="">Nome Loja</label>
+            <label for="">Nome Produto</label>
             <input type="text" name="name" class="form-control">
         </div>
         <div class="form-group">
             <label for="">Descrição</label>
             <input type="text" name="description" class="form-control">
         </div>
+
         <div class="form-group">
-            <label for="">Telefone</label>
-            <input type="text" name="phone" class="form-control">
+            <label for="">Conteúdo</label>
+            <textarea name="body" id="" cols="30" rows="10"></textarea>
         </div>
         <div class="form-group">
-            <label for="">Celular/Whatsapp</label>
-            <input type="text" name="mobile_phone" class="form-control">
+            <label for="">Price</label>
+            <input type="text" name="price" class="form-control">
         </div>
+
         <div class="form-group">
             <label for="">Slug</label>
             <input type="text" name="slug" class="form-control">
         </div>
         <div class="form-group">
-            <label for="">Usuário</label>
-            <select name="user" class="form-control">
-                @foreach($users as $user)
-                    <option value="{{$user->id}}">{{$user->name}}</option>
+            <label for="">Lojas</label>
+            <select name="store" class="form-control">
+                @foreach($stores as $store)
+                    <option value="{{$store->id}}">{{$store->name}}</option>
                 @endforeach
             </select>
         </div>
         <div class="form-group">
-            <button type="submit" class="btn btn-lg btn-success">Criar Loja</button>
+            <button type="submit" class="btn btn-lg btn-success">Criar Produto</button>
         </div>
 
     </form>
