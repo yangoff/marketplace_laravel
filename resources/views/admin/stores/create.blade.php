@@ -1,8 +1,9 @@
 @extends('layouts.app');
 @section('content')
     <h1>Criar Loja</h1>
-    <form action="admin.stores.store" method="post">
-        <input type="hidden" name="_token" value="{{csrf_token()}}">
+    <form action="{{route('admin.stores.store')}}" method="post">
+        @csrf
+        @method('POST')
         <div class="form-group">
             <label for="">Nome Loja</label>
             <input type="text" name="name" class="form-control">
@@ -23,14 +24,7 @@
             <label for="">Slug</label>
             <input type="text" name="slug" class="form-control">
         </div>
-        <div class="form-group">
-            <label for="">Usuário</label>
-            <select name="user" class="form-control">
-                @foreach($users as $user)
-                    <option value="{{$user->id}}">{{$user->name}}</option>
-                @endforeach
-            </select>
-        </div>
+
         <div class="form-group">
             <button type="submit" class="btn btn-lg btn-success">Criar Loja</button>
         </div>
