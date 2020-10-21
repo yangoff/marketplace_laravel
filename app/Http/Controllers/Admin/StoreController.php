@@ -3,26 +3,45 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreRequest;
 use App\Store;
 use App\User;
+use App\Traits\UploadTrait;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class StoreController extends Controller
 {
+    use UploadTrait;
+    public function __construct()
+
+
+    {
+        //$this->middleware('user.has.store')->only(['create','store']);
+    }
+
+
     public function index(){
-        $stores = Store::paginate(10);
-        return view('admin.stores.index',compact('stores'));
+        //$stores = Store::paginate(10);
+        $store = auth()->user()->store;
+        return view('admin.stores.index',compact('store'));
     }
 
     public function  create(){
+
         $users = User::all(['id','name']);
         return view('admin.stores.create',compact('users'));
     }
 
-    public function store(Request $request){
+    public function store(StoreRequest $request){
+
         $data= $request->all();
 
         $user = auth()->user();
+
+        if($request->hasFile('logo')){
+            $data['logo'] = $this->imageUpload($request->file('logo'));
+        }
 
         $user->store()->create($data);
         flash('Loja Criada com Sucesso')->success();
@@ -40,9 +59,16 @@ class StoreController extends Controller
         return view('admin.stores.edit',compact('store'));
     }
 
-    public function update(Request $request,$store){
+    public function update(StoreRequest $request,$store){
         $data =$request->all();
         $store = Store::find($store);
+        if($request->hasFile('logo')){
+            if (Storage::disk('public')->exists($store->logo)){
+                Storage::disk('public')->delete($store->logo);
+            }
+            $data['logo'] = $this->imageUpload($request->file('logo'));
+        }
+
         $store->update($data);
         flash('Loja Atualizada com Sucesso!')->success();
         return redirect()->route('admin.stores.index');
@@ -53,4 +79,6 @@ class StoreController extends Controller
         flash('Loja Deletada com Sucesso!')->success();
         return redirect()->route('admin.stores.index');
     }
+
+
 }

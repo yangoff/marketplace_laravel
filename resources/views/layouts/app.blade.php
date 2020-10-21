@@ -19,12 +19,16 @@
             @guest
                 @else
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item @if(request()->is('admin/stores')) active @endif">
+                <li class="nav-item @if(request()->is('admin/stores*')) active @endif">
                     <a class="nav-link" href="{{route('admin.stores.index')}}">Lojas</a>
                 </li>
 
-                <li class="nav-item @if(request()->is('admin/products')) active @endif">
+                <li class="nav-item @if(request()->is('admin/products*')) active @endif">
                     <a class="nav-link" href="{{route('admin.products.index')}}">Produtos</a>
+                </li>
+
+                <li class="nav-item @if(request()->is('admin/categories*')) active @endif">
+                    <a class="nav-link" href="{{route('admin.categories.index')}}">Categorias</a>
                 </li>
 
                 <li class="nav-item">
@@ -45,7 +49,7 @@
                 @endguest
         </div>
     </nav>
-<div class="container">
+<div class="container-sm">
     @include('flash::message')
     @yield('content')
 </div>
